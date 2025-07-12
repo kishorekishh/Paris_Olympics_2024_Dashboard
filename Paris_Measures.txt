@@ -1,0 +1,108 @@
+# Import necessary libraries
+import pandas as pd
+import os
+
+# Define the path to the downloaded CSV files
+download_path = 'C:/Users/User/Desktop/14_Paris_2024_Olympics_Dashboard/Source'
+
+# Load the data into DataFrames
+athletes = pd.read_csv(os.path.join(download_path, 'athletes.csv'))
+events = pd.read_csv(os.path.join(download_path, 'events.csv'))
+medallists = pd.read_csv(os.path.join(download_path, 'medallists.csv'))
+medals = pd.read_csv(os.path.join(download_path, 'medals.csv'))
+medals_total = pd.read_csv(os.path.join(download_path, 'medals_total.csv'))
+schedules = pd.read_csv(os.path.join(download_path, 'schedules.csv'))
+schedules_preliminary = pd.read_csv(os.path.join(download_path, 'schedules_preliminary.csv'))
+teams = pd.read_csv(os.path.join(download_path, 'teams.csv'))
+torch_route = pd.read_csv(os.path.join(download_path, 'torch_route.csv'))
+venues = pd.read_csv(os.path.join(download_path, 'venues.csv'))
+
+
+Source: To fetech path and replace with / forward slash:  C:/Users/User/Desktop/14_Paris_2024_Olympics_Dashboard/Source
+
+Table 
+Table Name
+Olympic_Measures = 
+
+Measure Inside Table
+Total_Medals = COUNT(medallists[code])
+Total_Gold_Medals = CALCULATE([Total_Medals],medallists[medal_type]="Gold Medal")
+Total_Silver_Medals = CALCULATE([Total_Medals],medallists[medal_type]="Silver Medal")
+Total_Bronze_Medals = CALCULATE([Total_Medals],medallists[medal_type]="Bronze Medal")
+
+Total_Medals = var obj= COUNT(medallists[code])
+return
+IF(ISBLANK(obj),0,obj)
+
+Country_Playing = DISTINCTCOUNT(athletes[country])
+
+Playing_Teams=DISTINCTCOUNT(teams[code]) 
+
+Total_Athletes= DISTINCTCOUNT(athletes[code])
+
+Total_Male_Atheletes=CALCULATE([Total_Athletes],athletes[gender]="Male")
+
+Total_Female_Atheletes=CALCULATE([Total_Athletes],athletes[gender]="Female")
+
+Total_Male_Atheletes_with_Gold_Medals=CALCULATE([Total_Gold_Medals],medallists[gender]="Male")
+
+Total_Female_Atheletes_with_Gold_Medals=CALCULATE([Total_Gold_Medals],medallists[gender]="Female")
+
+
+Top_Performance_Country = var MaxCountMedals=MAX(medals_total[Total])
+
+RETURN
+CALCULATE(VALUES(medals_total[country_code]),medals_total[Total]>=MaxCountMedals)
+
+Highlights = 
+"Total athletes: "&[Total_Athletes]&", with "&[Total_Male_Atheletes]&" male and "&[Total_Female_Atheletes]&" female participants.
+The males won "&[Total_Male_Atheletes_with_Gold_Medals]&" gold medals, and the females won "&[Total_Female_Atheletes_with_Gold_Medals]&" gold medals in the tournament.
+Country "&[Top_Performance_Country]&" is the highest-performing country in the tournament."
+
+Gold_Highlights = "Total "&[Total_Gold_Medals]&" where Male got "&
+[Total_Male_Atheletes_with_Gold_Medals]&" Gold Medals and Female"&
+[Total_Female_Atheletes_with_Gold_Medals]&" Models."
+
+Silver_Male_Medals = CALCULATE([Total_Silver_Medals],medallists[gender]="Male")
+
+Silver_Female_Medals = CALCULATE([Total_Silver_Medals],medallists[gender]="Female")
+
+Bronze_Male_Medals = CALCULATE([Total_Bronze_Medals],medallists[gender]="Male")
+
+Bronze_Female_Medals = CALCULATE([Total_Bronze_Medals],medallists[gender]="Female")
+
+Silver_Highlights="Total "&[Total_Silver_Medals]&" where Male got "&[Silver_Male_Medals]&"
+Gold Medals and Female "&[Silver_Female_Medals]&" Models."
+
+Bronze_Highlights = "Total "&[Total_Bronze_Medals]&" where Male got "&[Bronze_Male_Medals]&"
+Gold Medals and Female "&[Bronze_Female_Medals]&" Models."
+
+Total_Country_Medals = COUNT(medals[code])
+
+Calculated Columns
+
+Sheet name: athletes
+
+Age=DATEDIFF(athletes[birth_date],TODAY(),YEAR)
+
+Age Category = 
+SWITCH(
+    TRUE(),
+    'Athletes'[Age] >= 15 && 'Athletes'[Age] <= 20, "15-20",
+    'Athletes'[Age] > 20 && 'Athletes'[Age] <= 25, "21-25",
+    'Athletes'[Age] > 25 && 'Athletes'[Age] <= 30, "26-30",
+    'Athletes'[Age] > 30 && 'Athletes'[Age] <= 35, "31-35",
+    'Athletes'[Age] > 35 && 'Athletes'[Age] <= 40, "36-40",
+    'Athletes'[Age] > 40 && 'Athletes'[Age] <= 45, "41-45",
+    'Athletes'[Age] > 45 && 'Athletes'[Age] <= 50, "46-50",
+    'Athletes'[Age] > 50, "51+",
+    "Under 15"
+)
+
+sheet name : medals
+
+Total_Country_Gold_Medals = CALCULATE([Total_Country_Medals],medals[medal_type]="Gold Medal")
+
+Total_Country_Silver_Medals = CALCULATE([Total_Country_Medals],medals[medal_type]="Silver Medal")
+
+Total_Country_Bronze_Medals = CALCULATE([Total_Country_Medals],medals[medal_type]="Bronze Medal")
